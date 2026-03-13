@@ -1,7 +1,6 @@
 <script setup>
 import {ref, defineEmits, defineProps, computed} from 'vue'
 import {useUserStore} from '@/stores/user'
-import { ElMessage } from 'element-plus'
 
 const emits = defineEmits(['update:visible','login-success'])
 const props = defineProps({
@@ -22,17 +21,14 @@ const rules = {
   password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
 }
 
-const submit = async () => {
-  try{
-    await formRef.value.validate()
-    // 调用 store 的 login，若失败会抛出
-    await userStore.login(form.value.username, form.value.password)
-    emits('login-success')
-    visible.value = false
-  }catch(err){
-    const msg = err?.message || '登录失败'
-    ElMessage.error(msg)
-  }
+const submit = () => {
+  formRef.value.validate((valid) => {
+    if (valid) {
+      userStore.login(form.value.username, form.value.password)
+      emits('login-success')
+      visible.value = false
+    }
+  })
 }
 
 const close = ()=> { visible.value = false }

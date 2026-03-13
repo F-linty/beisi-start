@@ -1,4 +1,4 @@
-import { ExecutionContext, Injectable } from '@nestjs/common';
+import { ExecutionContext, Injectable,UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 @Injectable()
@@ -10,14 +10,7 @@ export class AcessGuard extends AuthGuard('access') {
     context: ExecutionContext,
     status?: any,
   ): TUser {
-    const reply = context.switchToHttp().getResponse();
-    if (err || !user) {
-      reply.code(401).send({
-        code: 401,
-        message: '令牌过期',
-        data: [],
-      });
-    }
+    if(!user) throw new UnauthorizedException("登录失效")
     return user;
   }
 }

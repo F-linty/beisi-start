@@ -1,3 +1,5 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTc3MzQyMTEwMCwiZXhwIjoxNzczNDIyMDAwfQ.eGeQLYNNpV-5lwOHrit6ojWgooMxF4m17iQbEVNkVAs
+
 ### 用户登录
 POST http://localhost:3000/users/login
 content-type: application/json
@@ -9,3 +11,4 @@ content-type: application/json
 
 ### 用户信息获取
 GET http://localhost:3000/users/1
+Authorization:Bearer {{token}}
