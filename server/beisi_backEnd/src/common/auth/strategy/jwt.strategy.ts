@@ -13,13 +13,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'access') {
     });
   }
   async validate(payload) {
-    const { userId, tokenVersion } = payload;
-    const blackList = await this.prisma.blacklist.findMany({
-      where: { userId },
-    });
-    if (blackList[0].tokenVersion < tokenVersion) {
-      throw new HttpException('已下线，请重新登录！', 401);
-    }
     return payload;
   }
 }
