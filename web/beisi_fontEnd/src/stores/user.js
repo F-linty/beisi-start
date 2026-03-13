@@ -3,26 +3,29 @@ import {ref,reactive} from 'vue'
 export const useUserStore = defineStore('user',()=>{
     const isLogin = ref(false)
     const userInfo = reactive({
-        userName:"未登录",
-        avatar:"",
-        token,
-        refToken
+        userName: "未登录",
+        avatar: "",
+        token: '',
+        refToken: ''
     })
 
-    const login = (userName,passWord)=>{
-
+    const login = (account, passWord) => {
+        
     }
 
-    const logOut = ()=>{
-
+    const logOut = () => {
+        isLogin.value = false
+        userInfo.userName = '未登录'
+        userInfo.token = ''
+        userInfo.refToken = ''
     }
 
-    return{
+    return {
         isLogin,
         userInfo,
         logOut,
         login
     }
-},{
-    persist:true
+}, {
+    persist: true
 })

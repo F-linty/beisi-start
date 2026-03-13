@@ -1,10 +1,18 @@
 <script setup>
 import logo from '@/assets/Bes.jpg'
+
+import { ref } from 'vue'
 import {useUserStore} from '@/stores/user'
 import {storeToRefs} from 'pinia'
+
 const userStore = useUserStore()
 const {isLogin,userInfo} = storeToRefs(userStore)
-const {login,logOut} = userStore
+const loginVisible = ref(false)
+
+import Login from './Login.vue'
+function handleLoginSuccess(){
+    
+}
 </script>
 
 <template>
@@ -12,12 +20,13 @@ const {login,logOut} = userStore
         <header>
             <div class="tabbar">
                 <div class="tabbar_info">
-                    <el-image style="width: 45px; height: 45px;border-radius: 12px;" :src="logo" :fit="fit" />
+                    <el-image style="width: 45px; height: 45px;border-radius: 12px;" :src="logo" fit="cover" />
                 </div>
                 <el-button 
                     v-if="!isLogin"
                     type="default"
                     circle
+                    @click="loginVisible = true"
                 >
                     <el-icon><User /></el-icon>
                 </el-button>
@@ -41,6 +50,7 @@ const {login,logOut} = userStore
         </header>
         <main>内容区域</main>
         <footer>底部栏</footer>
+        <Login v-model:visible="loginVisible" @login-success="handleLoginSuccess" />
     </div>
 </template>
 <style scoped>
