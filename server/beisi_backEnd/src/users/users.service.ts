@@ -43,7 +43,7 @@ export class UsersService {
     return {
       code:200,
       message:"查询成功",
-      data:res
+      data:[res]
     }
   }
 
