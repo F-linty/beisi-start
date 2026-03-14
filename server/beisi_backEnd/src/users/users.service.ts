@@ -39,10 +39,11 @@ export class UsersService {
     if(!user.length){
       throw new HttpException("用户不存在",404)
     }
+    const { passWord,userId,...res } = user[0]
     return {
       code:200,
       message:"查询成功",
-      data:user
+      data:res
     }
   }
 
