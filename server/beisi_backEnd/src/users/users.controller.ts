@@ -13,8 +13,8 @@ export class UsersController {
   }
 
   @UseGuards(AcessGuard)
-  @Get(':id')
-  findOne(@Request() req, @Param('id') id: string) {
+  @Get()
+  findOne(@Request() req) {
     const {userId} = req.user
     return this.usersService.findOne(userId);
   }

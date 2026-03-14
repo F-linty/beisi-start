@@ -7,7 +7,7 @@ export class UsersService {
     private readonly authService: AuthService
   ){}
   async create(user) {
-    const passPort = [{userId:1,account:"ycx123",passWord:"123456",avatar:"https://www.keaitupian.cn/cjpic/frombd/1/253/3663778712/1545220977.jpg"}]
+    const passPort = [{userId:1,userName:"小杨",account:"ycx123",passWord:"123456",avatar:"https://www.keaitupian.cn/cjpic/frombd/1/253/3663778712/1545220977.jpg"}]
     const {account,passWord} = user
     const userInfo = passPort.filter(u=>u.account == account)
     if(!account?.trim() || !passWord?.trim()) {
@@ -17,6 +17,7 @@ export class UsersService {
         throw new HttpException("密码不能为空",400)
       }
     }
+    if(!userInfo.length) throw new HttpException("用户不存在",404)
     if(account.trim() !== userInfo[0].account) throw new HttpException("用户不存在",404)
     if(passWord.trim() !== userInfo[0].passWord) throw new HttpException("密码错误",401)
     if(
@@ -33,7 +34,7 @@ export class UsersService {
   }
 
   findOne(id: number) {
-    const passPort = [{userId:1,account:"ycx123",passWord:"123456",avatar:"https://www.keaitupian.cn/cjpic/frombd/1/253/3663778712/1545220977.jpg"}]
+    const passPort = [{userId:1,userName:"小杨",account:"ycx123",passWord:"123456",avatar:"https://www.keaitupian.cn/cjpic/frombd/1/253/3663778712/1545220977.jpg"}]
     const user = passPort.filter(u=>u.userId == id)
     if(!user.length){
       throw new HttpException("用户不存在",404)
