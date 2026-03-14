@@ -23,7 +23,6 @@ const rules = {
 }
 
 const submit = async () => {
-    console.log('Login submit start', { account: form.value.account })
     if (!formRef.value) return
     formRef.value.validate(async (valid) => {
         if (valid) {
