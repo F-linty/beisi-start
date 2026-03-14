@@ -8,23 +8,24 @@ export const useUserStore = defineStore('user', () => {
         token: '',
         refToken: ''
     })
-    const verifyData = async(account,passWord) => {
-        const user = await fetch(`http://localhost:3000/users/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ account, passWord })
-        })
-        const data = await user.json()
-        if (!user.ok) {
-            const msg = data?.message || `请求失败: ${user.status}`
-            throw new Error(msg)
-        }
-        const payload = data?.data?.[0] || {}
-        isLogin.value = true
-        userInfo.token = payload.token || ''
-        userInfo.refToken = payload.refToken || ''
+    const verifyData = async (account, passWord) => {
+            const user = await fetch(`http://localhost:3000/users/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ account, passWord })
+            })
+            const data = await user.json()
+            if (!user.ok) {
+                const msg = data?.message || `请求失败: ${user.status}`
+                ElMessage.error(msg || '登录失败')
+                return false
+            }
+            const payload = data?.data?.[0] || {}
+            userInfo.token = payload.token || ''
+            userInfo.refToken = payload.refToken || ''
+            return true
     }
     const getProfile = async () => {
         const profile = await fetch(`http://localhost:3000/users`, {
@@ -40,16 +41,19 @@ export const useUserStore = defineStore('user', () => {
             const userProfile = data.data[0]
             userInfo.userName = userProfile.userName || userInfo.userName
             userInfo.avatar = userProfile.avatar || userInfo.avatar
+            return true
         }
+        return false
     }
     const login = async (account, passWord) => {
-        try {
-            await verifyData(account,passWord)
-            await getProfile()
-        } catch (e) {
-            isLogin.value = false
-            throw e
+        const isPass = await verifyData(account, passWord)
+        const isGet = await getProfile()
+        if(isPass&&isGet){
+            isLogin.value = true
+            ElMessage.success('登录成功')
+            return true
         }
+        return false
     }
 
     const logOut = () => {

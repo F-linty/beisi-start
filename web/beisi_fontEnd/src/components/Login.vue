@@ -27,13 +27,10 @@ const submit = async () => {
     if (!formRef.value) return
     formRef.value.validate(async (valid) => {
         if (valid) {
-            try {
-                await userStore.login(form.value.account, form.value.password)
+            const res = await userStore.login(form.value.account, form.value.password)
+            if(res){
                 emits('login-success')
                 visible.value = false
-                ElMessage.success('登录成功')
-            } catch (e) {
-                ElMessage.error(e?.message || '登录失败')
             }
         }
     })
